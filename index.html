@@ -7,6 +7,21 @@
 </head>
 <body>
     <canvas id="canvas" width="400" height="600"></canvas>
-    <script src="game.js"></script>
+    <div id="selection_board">
+        <div id="tabs">
+            <button class="tab active" data-tab="body">Body</button>
+            <button class="tab" data-tab="background">Background</button>
+            <button class="tab" data-tab="face">Face</button>
+            <button class="tab" data-tab="hair">Hair</button>
+            <button class="tab" data-tab="clothes">Clothes</button>
+            <button class="tab" data-tab="accessories">Accessories</button>
+            <button class="tab" data-tab="foreground">Foreground</button>
+        </div>
+        <div id="sub-tabs"></div>
+        <div id="thumbnails"></div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/ui.js"></script>
 </body>
 </html>

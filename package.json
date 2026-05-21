@@ -1,0 +1,11 @@
+{
+    "type": "module",
+    "scripts": {
+        "generate-assets": "node scripts/generate-assets.js",
+        "sync-assets": "npm run generate-assets && npm run make-thumbnails",
+        "make-thumbnails": "node scripts/make-thumbnails.js"
+    },
+    "dependencies": {
+        "sharp": "^0.34.3"
+    }
+}
