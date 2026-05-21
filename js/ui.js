@@ -1,12 +1,19 @@
 import { outfitCategories, skinColors } from './assets.js';
-import { currentOutfit } from './outfit.js';
-import { redraw } from './main.js';
+import { currentOutfit, resetOutfit } from './outfit.js';
+import { exportCanvas, redraw } from './main.js';
 
 const mainTabs = document.querySelectorAll('.tab');
 const subTabContainer = document.getElementById('sub-tabs');
 const thumbnailContainer = document.getElementById('thumbnails');
+const canvasColorInput = document.getElementById('canvas_color');
+const resetButton = document.getElementById('reset_outfit');
+const exportButton = document.getElementById('export_outfit');
 let lastTop = currentOutfit.clothes.tops;
 let lastBottom = currentOutfit.clothes.bottoms;
+
+const subTabLabels = {
+    bodyDetails: 'details',
+};
 
 function getThumbnailSrc(src) {
     const thumbnailSrc = src.replace('assets/', 'assets/thumbnails/');
@@ -49,7 +56,7 @@ function selectClothing(subTab, src) {
 
 function canClearSelection(tabName, subTab) {
     if (tabName === 'body') return subTab === 'bodyDetails';
-    if (tabName === 'face') return ['eyelashes', 'ears', 'details'].includes(subTab);
+    if (tabName === 'face') return ['eyelashes', 'details'].includes(subTab);
     if (tabName === 'clothes') return !['tops', 'bottoms', 'dresses'].includes(subTab);
     if (tabName === 'hair') return subTab === 'back' || subTab === 'bangs';
     if (tabName === 'accessories' || tabName === 'extras') return true;
@@ -109,7 +116,7 @@ function createClearButton(tabName, subTab) {
 }
 
 function shouldShowSubTab(tabName, subTab) {
-    return !(tabName === 'face' && subTab === 'eyes');
+    return !(tabName === 'face' && ['eyes', 'ears'].includes(subTab));
 }
 
 // main tabs
@@ -121,6 +128,23 @@ mainTabs.forEach(tab => {
         const tabName = this.dataset.tab;
         showSubTabs(tabName);
     });
+});
+
+resetButton.addEventListener('click', () => {
+    resetOutfit();
+    lastTop = currentOutfit.clothes.tops;
+    lastBottom = currentOutfit.clothes.bottoms;
+    canvasColorInput.value = currentOutfit.canvasColor;
+    redraw();
+});
+
+exportButton.addEventListener('click', () => {
+    exportCanvas();
+});
+
+canvasColorInput.addEventListener('input', () => {
+    currentOutfit.canvasColor = canvasColorInput.value;
+    redraw();
 });
 
 // subtabs
@@ -139,10 +163,21 @@ function showSubTabs(tabName) {
     Object.keys(category).filter(subTab => shouldShowSubTab(tabName, subTab)).forEach(subTab => {
         const btn = document.createElement('button');
         btn.classList.add('subtab');
-        btn.textContent = subTab;
-        btn.addEventListener('click', () => showThumbnails(tabName, subTab));
+        btn.textContent = subTabLabels[subTab] ?? subTab;
+        btn.addEventListener('click', () => {
+            subTabContainer.querySelectorAll('.subtab').forEach(button => {
+                button.classList.remove('active');
+            });
+            btn.classList.add('active');
+            showThumbnails(tabName, subTab);
+        });
         subTabContainer.appendChild(btn);
     });
+
+    const firstSubTab = subTabContainer.querySelector('.subtab');
+    if (firstSubTab) {
+        firstSubTab.click();
+    }
 }
 
 // thumbnails
@@ -165,8 +200,6 @@ function showThumbnails(tabName, subTab) {
             thumbnail.type = 'button';
             thumbnail.classList.add('thumbnail', className);
             thumbnail.style.backgroundColor = color;
-            thumbnail.style.width = '72px';
-            thumbnail.style.height = '72px';
             thumbnail.setAttribute('aria-label', label);
         }
 
@@ -198,3 +231,5 @@ function showThumbnails(tabName, subTab) {
         thumbnailContainer.appendChild(thumbnail);
     });
 }
+
+showSubTabs('body');

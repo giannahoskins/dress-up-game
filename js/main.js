@@ -9,7 +9,6 @@ let redrawId = 0;
 const skinTintPaths = [
     '/body/skin/',
     '/body/details/',
-    '/face/ears/',
     '/face/eyes/',
 ];
 
@@ -53,11 +52,17 @@ export function getOutfitLayers() {
 
 function getLayerTint(src) {
     if (src.includes('/hair/')) {
-        return currentOutfit.hair.color;
+        return {
+            color: currentOutfit.hair.color,
+            mode: 'shaded',
+        };
     }
 
     if (skinTintPaths.some(path => src.includes(path))) {
-        return currentOutfit.skinColor;
+        return {
+            color: currentOutfit.skinColor,
+            mode: 'shaded',
+        };
     }
 
     return null;
@@ -81,17 +86,22 @@ function loadImage(src) {
 function drawTintedImage(targetCtx, img, tint) {
     const layerCanvas = document.createElement('canvas');
     const layerCtx = layerCanvas.getContext('2d');
+    const tintColor = typeof tint === 'string' ? tint : tint.color;
+    const tintMode = typeof tint === 'string' ? 'shaded' : tint.mode;
 
     layerCanvas.width = canvas.width;
     layerCanvas.height = canvas.height;
 
     layerCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
     layerCtx.globalCompositeOperation = 'source-atop';
-    layerCtx.fillStyle = tint;
+    layerCtx.fillStyle = tintColor;
     layerCtx.fillRect(0, 0, canvas.width, canvas.height);
 
-    layerCtx.globalCompositeOperation = 'multiply';
-    layerCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    if (tintMode === 'shaded') {
+        layerCtx.globalCompositeOperation = 'multiply';
+        layerCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    }
+
     layerCtx.globalCompositeOperation = 'source-over';
 
     targetCtx.drawImage(layerCanvas, 0, 0);
@@ -124,6 +134,13 @@ export async function redraw() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(bufferCanvas, 0, 0);
+}
+
+export function exportCanvas(filename = 'wardrobe-whimsy-outfit.png') {
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
 }
 
 redraw();

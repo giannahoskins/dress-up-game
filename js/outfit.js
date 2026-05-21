@@ -1,5 +1,5 @@
 // current outfit object
-export const currentOutfit = {
+export const defaultOutfit = {
     canvasColor: '#d0c0c0',
     background: null,
     wings: null,
@@ -15,7 +15,6 @@ export const currentOutfit = {
         eyebrows: 'assets/face/eyebrows/6.png',
         nose: 'assets/face/nose/1.png',
         mouth: 'assets/face/mouth/1.png',
-        ears: 'assets/face/ears/1.png',
         details: null
     },
     clothes: {
@@ -37,3 +36,13 @@ export const currentOutfit = {
     },
     foreground: null
 };
+
+export const currentOutfit = structuredClone(defaultOutfit);
+
+export function resetOutfit() {
+    Object.keys(currentOutfit).forEach(key => {
+        delete currentOutfit[key];
+    });
+
+    Object.assign(currentOutfit, structuredClone(defaultOutfit));
+}

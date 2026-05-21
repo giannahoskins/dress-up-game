@@ -79,7 +79,7 @@ export const outfitCategories = {
                 'assets/clothes/top/7.webp', 'assets/clothes/top/8.png', 'assets/clothes/top/8.webp', 'assets/clothes/top/9.png',
                 'assets/clothes/top/9.webp', 'assets/clothes/top/10.png', 'assets/clothes/top/10.webp', 'assets/clothes/top/11.webp',
                 'assets/clothes/top/13.png', 'assets/clothes/top/13.webp', 'assets/clothes/top/14.png', 'assets/clothes/top/16.png',
-                'assets/clothes/top/17.png', 'assets/clothes/top/18.png', 'assets/clothes/top/19.png', 'assets/clothes/top/20.png',
+                'assets/clothes/top/17.png', 'assets/clothes/top/19.png',
             ],
         dresses: [
                 'assets/clothes/dress/1.png', 'assets/clothes/dress/1.webp', 'assets/clothes/dress/2.png', 'assets/clothes/dress/2.webp',
@@ -159,6 +159,9 @@ export const outfitCategories = {
                 'assets/body/tail/5.png', 'assets/body/tail/6.png',
             ],
     },
+    weapons: [
+
+        ],
     foreground: [
             'assets/canvas/foreground/1.png', 'assets/canvas/foreground/2.png', 'assets/canvas/foreground/3.png', 'assets/canvas/foreground/4.png',
             'assets/canvas/foreground/5.png', 'assets/canvas/foreground/6.png', 'assets/canvas/foreground/7.png', 'assets/canvas/foreground/8.png',

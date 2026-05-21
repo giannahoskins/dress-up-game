@@ -13,7 +13,14 @@ const hairColors = ['#2b1b16', '#5b3527', '#8a5a3b', '#d0a064', '#f0d58a', '#c63
 
 async function imagePaths(folder) {
     const dir = path.join(assetsRoot, folder);
-    const entries = await readdir(dir, { withFileTypes: true });
+    let entries;
+
+    try {
+        entries = await readdir(dir, { withFileTypes: true });
+    } catch (error) {
+        if (error.code === 'ENOENT') return [];
+        throw error;
+    }
 
     return entries
         .filter(entry => entry.isFile())

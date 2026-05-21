@@ -3,24 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dress-Up Game</title>
+    <title>Wardrobe Whimsy</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Outfit:wght@100..900&display=swap');
+    </style>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <canvas id="canvas" width="400" height="600"></canvas>
-    <div id="selection_board">
-        <div id="tabs">
-            <button class="tab active" data-tab="body">Body</button>
-            <button class="tab" data-tab="background">Background</button>
-            <button class="tab" data-tab="face">Face</button>
-            <button class="tab" data-tab="hair">Hair</button>
-            <button class="tab" data-tab="clothes">Clothes</button>
-            <button class="tab" data-tab="accessories">Accessories</button>
-            <button class="tab" data-tab="foreground">Foreground</button>
+    <h1 id="game_header">Wardrobe Whimsy</h1>
+    <div id="game_board">
+        <div id="canvas_panel">
+            <canvas id="canvas" width="400" height="600"></canvas>
+            <div id="action_bar" aria-label="Outfit actions">
+                <label for="canvas_color">Canvas</label>
+                <input id="canvas_color" type="color" value="#d0c0c0">
+                <button id="reset_outfit" type="button">Reset</button>
+                <button id="export_outfit" type="button">Save</button>
+            </div>
         </div>
-        <div id="sub-tabs"></div>
-        <div id="thumbnails"></div>
+        <div id="selection_board">
+            <div id="tabs">
+                <button class="tab active" data-tab="body">Body</button>
+                <button class="tab" data-tab="background">Scene</button>
+                <button class="tab" data-tab="face">Face</button>
+                <button class="tab" data-tab="hair">Hair</button>
+                <button class="tab" data-tab="clothes">Clothes</button>
+                <button class="tab" data-tab="accessories">Accessories</button>
+                <button class="tab" data-tab="extras">Extras</button>
+                <button class="tab" data-tab="foreground">Frame</button>
+            </div>
+        </div>
+        <div id="thumbnail_board">
+            <div id="sub-tabs"></div>
+            <div id="thumbnails"></div>
+        </div>
     </div>
+    <footer id="asset_credit">
+        Character assets by <a href="https://maellemarylloup.itch.io/" target="_blank" rel="noreferrer">maellemarylloup on itch.io</a>.
+    </footer>
 
+    <script src="node_modules/gsap/dist/gsap.min.js"></script>
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/ui.js"></script>
 </body>
